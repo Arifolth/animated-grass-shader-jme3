@@ -9,3 +9,12 @@ All credit goes to user 'rickard' on the JME3 forums for his post: http://hub.jm
 This is the fixed version of his grass shader that properly functions with the latest release of JME3 as of May 2014.  Simply move the files into your JME3 project and point the paths correctly.  Obviously, you are free to change the textures, color, mesh, and more to suit your grassy needs.
 
 The included texture and normal map are just placeholders so the code compiles.
+
+
+06 Oct 2023
+==============
+Code modified to run on latest jme3 version 3.6.1-stable
+by Arifolth
+
+## Screenshots
+![Image](screenshots/grass.png)
