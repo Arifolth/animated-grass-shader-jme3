@@ -134,6 +134,7 @@ public class CustomGrassTest extends SimpleApplication {
 
         ground.setLocalTranslation(0, 0, 10);
         ground.rotate(-90 * FastMath.DEG_TO_RAD, 0, 0);
+        ground.center();
         rootNode.attachChild(ground);
 
         windDirection.x = random.nextFloat();
@@ -146,7 +147,7 @@ public class CustomGrassTest extends SimpleApplication {
         Texture grass = assetManager.loadTexture("assets/Textures/grass_3.png");
         grass.setWrap(Texture.WrapAxis.S, Texture.WrapMode.Repeat);
         grassShader.setTexture("Texture", grass);
-//        grassShader.setFloat("AlphaDiscardThreshold", 1.0f);
+        grassShader.setFloat("AlphaDiscardThreshold", -1.2f);
         grassShader.setTexture("Noise", assetManager.loadTexture("assets/Textures/normal.jpg"));
 
 
@@ -163,23 +164,47 @@ public class CustomGrassTest extends SimpleApplication {
         grassShader.setFloat("Time", 0);
 
         grassShader.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off);
-        grassGeom.setQueueBucket(Bucket.Translucent);
-        grassGeom.setCullHint(Spatial.CullHint.Never);
+//        grassGeom.setQueueBucket(Bucket.Translucent);
+//        grassGeom.setCullHint(Spatial.CullHint.Never);
         grassGeom.setMaterial(grassShader);
-        grassGeom.center();
+//        grassGeom.center();
 
         Vector3f grassBladePosition = null;
-        for (int y = 0; y < 50; y++) {
+        for (int y = 0; y < 1; y++) {
             Geometry grassInstance = null;
-            for (int x = 0; x < 50; x++) {
+            for (int x = 0; x < 1; x++) {
                 grassBladePosition = new Vector3f(x + (float) (Math.random() * 1f), 0, y + (float) (Math.random() * 1f));;
 
                 grassInstance = grassGeom.clone();
                 grassInstance.setLocalTranslation(grassBladePosition);
-                grassInstance.scale(0.4f, 0.4f + random.nextFloat() * .2f, 0.4f);
-                grassInstance.rotate(CustomGrassTest.getRandomNumberInRange(0f, .55f), CustomGrassTest.getRandomNumberInRange(0f, 3.55f), CustomGrassTest.getRandomNumberInRange(0f, .55f));
+                grassInstance.rotate(0, 0.58f, 0);
                 Node grassBladeNode = new Node();
+                grassInstance.center();
                 grassBladeNode.attachChild(grassInstance);
+
+                grassInstance = grassInstance.clone();
+                grassInstance.rotate(0, 1.58f, 0);
+                grassInstance.center();
+                grassBladeNode.attachChild(grassInstance);
+/*
+                grassBladeNode = (Node) grassBladeNode.clone();
+                grassInstance.rotate(0, -0.58f, 0);
+                grassInstance.center();
+                grassBladeNode.attachChild(grassInstance);
+
+                grassBladeNode = (Node) grassBladeNode.clone();
+                grassInstance.rotate(0, -1.58f, 0);
+                grassInstance.center();
+                grassBladeNode.attachChild(grassInstance);
+
+                grassBladeNode = (Node) grassBladeNode.clone();
+                grassInstance.rotate(0, 0f, 0);
+                grassInstance.center();
+                grassBladeNode.attachChild(grassInstance);
+
+                grassBladeNode.setLocalTranslation(localTranslation);*/
+                grassBladeNode.move(0, 1f, 0);
+
                 grassBladeNode = GeometryBatchFactory.optimize(grassBladeNode, true);
                 grassBladeNode.setQueueBucket(Bucket.Translucent);
                 grassBladeNode.setCullHint(Spatial.CullHint.Never);
@@ -191,7 +216,7 @@ public class CustomGrassTest extends SimpleApplication {
         }
 
         rootNode.attachChild(allGrass);
-        rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        rootNode.setShadowMode(RenderQueue.ShadowMode.Off);
 
         cam.setLocation(new Vector3f(8.378951f, 5.4324f, 8.795956f));
         cam.setRotation(new Quaternion(-0.083419204f, 0.90370524f, -0.20599906f, -0.36595422f));
